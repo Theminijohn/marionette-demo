@@ -56,25 +56,12 @@
   <script src="assets/js/app.js"></script>
   <script src="assets/js/entities/contact.js"></script>
   <script src="assets/js/apps/contacts/list/list_view.js"></script>
+  <script src="assets/js/apps/contacts/list/list_controller.js"></script>
 
 
 
   <script type="text/javascript">
-
-    // Start Everything
-    ContactManager.on('start', function(){
-      var contacts = ContactManager.request("contact:entities")
-
-      // List View
-      var contactsListView = new ContactManager.ContactsApp.List.Contacts({
-        collection: contacts
-      });
-
-      ContactManager.mainRegion.show(contactsListView);
-    }); 
-
     ContactManager.start();
-
   </script>
 
 
