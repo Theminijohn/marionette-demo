@@ -39,11 +39,12 @@
     </p>
   </div>
 
-  <script type="text/template" id="static-template">
+  <script type="text/template" id="contact-template">
     <p>
-      This is text that was rendered by our Marionette app.
+      <%= firstName %> <%= lastName %>
     </p>
   </script>
+
 
 
   <script src="js/vendor/jquery.js"></script>
@@ -51,6 +52,7 @@
   <script src="js/vendor/underscore.js"></script>
   <script src="js/vendor/backbone.js"></script>
   <script src="js/vendor/backbone.wreqr.js"></script>
+  <script src="js/vendor/backbone.babysitter.js"></script>
   <script src="js/vendor/backbone.marionette.js"></script>
 
 
@@ -58,16 +60,44 @@
     var ContactManager = new Marionette.Application();
 
     ContactManager.addRegions({
-      mainRegion: '#main-region'    
+      mainRegion: '#main-region'
     });
 
-    ContactManager.StaticView = Marionette.ItemView.extend({
-      template: '#static-template'
+    // Models
+    ContactManager.Contact = Backbone.Model.extend({
+      defaults: {
+        firstName: ''
+      }
     });
 
-    ContactManager.on('initialize:after', function(){
-      var staticView = new ContactManager.StaticView();
-      ContactManager.mainRegion.show(staticView);
+    // Views
+    ContactManager.ContactView = Marionette.ItemView.extend({
+      template: '#contact-template',
+
+      events: {
+        "click p": "alertPhoneNumber"
+      },
+
+      alertPhoneNumber: function(){
+        alert(this.model.escape("phoneNumber"));
+      }
+    });
+
+    ContactManager.on("start", function(){
+
+      // Create instance of an Contact
+      var alice = new ContactManager.Contact({
+        firstName: 'Alice',
+        lastName: 'Arten',
+        phoneNumber: '555-0184'
+      });
+
+      var aliceView = new ContactManager.ContactView({
+        model: alice
+      });
+
+      ContactManager.mainRegion.show(aliceView);
+
     });
 
     ContactManager.start();
