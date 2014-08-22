@@ -2,7 +2,22 @@ ContactManager.module("ContactsApp.List", function(List, ContactManager, Backbon
 
 	List.Contact = Marionette.ItemView.extend({
 		tagName: 'tr',
-		template: '#contact-list-item'
+		template: '#contact-list-item',
+
+		events: {
+			'click': 'highlightName',
+			'click button.js-delete': 'deleteClicked'
+		},
+
+		highlightName: function(e) {
+			e.preventDefault();
+			this.$el.toggleClass("warning");
+		},
+
+		deleteClicked: function(e){
+			e.stopPropagation();
+			this.trigger("contact:delete", this.model);
+		}
 	});
 
 	List.Contacts = Marionette.CompositeView.extend({
@@ -13,4 +28,4 @@ ContactManager.module("ContactsApp.List", function(List, ContactManager, Backbon
 		childViewContainer: 'tbody'
 	})
 
-})
+});
