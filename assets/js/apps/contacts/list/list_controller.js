@@ -8,6 +8,12 @@ ContactManager.module('ContactsApp.List', function(List, ContactManager, Backbon
 				collection: contacts
 			});
 
+			// Show Button
+			contactsListView.on("childview:contact:show", function(childView, model){
+				ContactManager.ContactsApp.Show.Controller.showContact(model);
+			});
+
+			// Delete Button 
 			contactsListView.on("childview:contact:delete", function(childView, model){
 				contacts.remove(model);
 			});

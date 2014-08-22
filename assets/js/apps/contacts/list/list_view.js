@@ -6,6 +6,7 @@ ContactManager.module("ContactsApp.List", function(List, ContactManager, Backbon
 
 		events: {
 			'click': 'highlightName',
+			'click button.js-show': 'showClicked',
 			'click button.js-delete': 'deleteClicked'
 		},
 
@@ -14,9 +15,22 @@ ContactManager.module("ContactsApp.List", function(List, ContactManager, Backbon
 			this.$el.toggleClass("warning");
 		},
 
+		showClicked: function(e){
+			e.preventDefault();
+			e.stopPropagation();
+			this.trigger("contact:show", this.model);
+		},
+
 		deleteClicked: function(e){
 			e.stopPropagation();
 			this.trigger("contact:delete", this.model);
+		},
+
+		remove: function(){
+			var self = this;
+			this.$el.fadeOut(function(){
+				Marionette.ItemView.prototype.remove.call(self);
+			});
 		}
 	});
 
