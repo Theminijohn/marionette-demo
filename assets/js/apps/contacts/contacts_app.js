@@ -18,9 +18,9 @@ ContactManager.module("ContactsApp", function(ContactsApp, ContactManager, Backb
 	};
 
 	ContactManager.on("contacts:list", function(){
-		ContactManager.navigate("contacts");
-		API.listContacts();
-	})
+    ContactManager.navigate("contacts");
+    API.listContacts();
+  });
 
 	// Show Button Listener
 	ContactManager.on("contact:show", function(id){

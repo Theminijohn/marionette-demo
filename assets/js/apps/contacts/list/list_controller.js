@@ -1,25 +1,21 @@
-ContactManager.module('ContactsApp.List', function(List, ContactManager, Backbone, Marionette, $, _){
+ContactManager.module("ContactsApp.List", function(List, ContactManager, Backbone, Marionette, $, _){
+  List.Controller = {
+    listContacts: function(){
+      var contacts = ContactManager.request("contact:entities");
 
-	List.Controller = {
-		listContacts: function(){
-			var contacts = ContactManager.request("contact:entities");
+      var contactsListView = new List.Contacts({
+        collection: contacts
+      });
 
-			var contactsListView = new List.Contacts({
-				collection: contacts
-			});
+      contactsListView.on("itemview:contact:show", function(childView, model){
+        ContactManager.trigger("contact:show", model.get("id"));
+      });
 
-			// Show Button
-			contactsListView.on("childview:contact:show", function(childView, model){
-				ContactManager.trigger("contact:show", model.get("id"));
-			});
+      contactsListView.on("itemview:contact:delete", function(childView, model){
+        model.destroy();
+      });
 
-			// Delete Button 
-			contactsListView.on("childview:contact:delete", function(childView, model){
-				contacts.remove(model);
-			});
-
-			ContactManager.mainRegion.show(contactsListView);
-		}
-	}
-
-})
+      ContactManager.mainRegion.show(contactsListView);
+    }
+  }
+});
